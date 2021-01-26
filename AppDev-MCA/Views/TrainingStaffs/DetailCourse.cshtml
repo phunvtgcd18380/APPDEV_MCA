@@ -1,7 +1,14 @@
-﻿
+﻿@model AppDev_MCA.ViewModel.CourseCategoriesViewModel
 @{
     ViewBag.Title = "DetailCourse";
 }
 
 <h2>DetailCourse</h2>
 
+@Html.ActionLink("Back to My Tasks", "Index", "TrainingStaffs", null, new { @class = "btn btn-primary" })
+
+<ul>
+    <li>@Html.DisplayTextFor(model => model.Courses.Name)</li>
+    <li>@Html.DisplayTextFor(model => model.Courses.Description)</li>
+    <li>@Html.DisplayTextFor(model => model.Courses.Category.Name)</li>
+</ul>

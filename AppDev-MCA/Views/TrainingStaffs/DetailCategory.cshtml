@@ -1,7 +1,12 @@
-﻿
+﻿@model AppDev_MCA.Models.Category
 @{
     ViewBag.Title = "DetailCategory";
 }
 
 <h2>DetailCategory</h2>
+@Html.ActionLink("Back to My Tasks", "Index", "TrainingStaffs", null, new { @class = "btn btn-primary" })
 
+<ul>
+    <li>@Model.Name</li>
+    <li>@Model.Description</li>
+</ul>

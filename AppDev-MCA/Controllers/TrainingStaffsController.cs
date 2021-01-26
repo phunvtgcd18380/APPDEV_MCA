@@ -24,7 +24,26 @@ namespace AppDev_MCA.Controllers
         // GET: TrainingStaffs
         public ActionResult Index()
         {
-            return View();
+            var trainerUsers = _context.TrainerUsers.ToList();
+            return View(trainerUsers);
+        }
+        public ActionResult ListCategory()
+        {
+            var categories = _context.Categories.ToList();
+            return View(categories);
+        }
+        public ActionResult DetailCategory(int id)
+        {
+            var categoryInDb = _context.Categories.SingleOrDefault(c => c.Id == id);
+
+            return View(categoryInDb);
+        }
+        public ActionResult DeleteCategory(int id)
+        {
+            var categoryInDb = _context.Categories.SingleOrDefault(c => c.Id == id);
+            _context.Categories.Remove(categoryInDb);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
         [HttpGet]
         public ActionResult CreateCategory()
@@ -43,12 +62,7 @@ namespace AppDev_MCA.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
-        public ActionResult DetailCategory(int id)
-        {
-            var categoryInDb = _context.Categories.SingleOrDefault(c => c.Id == id);
 
-            return View(categoryInDb);
-        }
         [HttpGet]
         public ActionResult EditCategory(int id)
         {
@@ -64,15 +78,30 @@ namespace AppDev_MCA.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
-        public ActionResult DeleteCategory(int id)
+
+
+        public ActionResult ListCourse()
         {
-            var CategoryInDb = _context.Categories.SingleOrDefault(c => c.Id == id);
-            _context.Categories.Remove(CategoryInDb);
+            var course = _context.Courses.ToList();
+            return View(course);
+        }
+        public ActionResult DetailCourse(int id)
+        {
+            var courseInDb = _context.Courses.SingleOrDefault(c => c.Id == id);
+            var viewModel = new CourseCategoriesViewModel()
+            {
+                Courses = courseInDb,
+                Categories = _context.Categories.Where(c => c.Id == courseInDb.CategoryId).ToList()
+            };
+            return View(viewModel);
+        }
+        public ActionResult DeleteCourse(int id)
+        {
+            var courseInDb = _context.Courses.SingleOrDefault(c => c.Id == id);
+            _context.Courses.Remove(courseInDb);
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
-
-
         [HttpGet]
         public ActionResult CreateCourse()
         {
@@ -95,16 +124,7 @@ namespace AppDev_MCA.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
-        public ActionResult DetailCourse(int id)
-        {
-            var courseInDb = _context.Courses.SingleOrDefault(c => c.Id == id);
-            var viewModel = new CourseCategoriesViewModel()
-            {
-                Courses = courseInDb,
-                Categories = _context.Categories.Where(c => c.Id == courseInDb.CategoryId).ToList()
-            };
-            return View(viewModel);
-        }
+
         [HttpGet]
         public ActionResult EditCourse(int id)
         {
@@ -126,17 +146,16 @@ namespace AppDev_MCA.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
-        public ActionResult DeleteCourse(int id)
+
+
+        public ActionResult RemoveCourse(int id)
         {
-            var courseInDb = _context.Courses.SingleOrDefault(c => c.Id == id);
-            _context.Courses.Remove(courseInDb);
+            var trainerCourseInDb = _context.TrainerCourses.SingleOrDefault(c => c.Id == id);
+            _context.TrainerCourses.Remove(trainerCourseInDb);
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
-
-
         [HttpGet]
-        [Authorize(Roles = "TRAININGSTAFF")]
         public ActionResult AssignCourse(string id)
         {
             var UserInDb = _context.Users.SingleOrDefault(t => t.Id == id);
@@ -148,44 +167,31 @@ namespace AppDev_MCA.Controllers
             return View(viewModel);
         }
         [HttpPost]
-        [Authorize(Roles = "TRAININGSTAFF")]
         public ActionResult AssignCourse(UserCoursesViewModel trainerCourse)
         {
 
             var newTrainerCourse = new TrainerCourse()
             {
-                TrainerId = trainerCourse.User.Id.ToString(),
-                CourseId = trainerCourse.TrainerUser.CourseId
+                TrainerId = trainerCourse.User.Id,
+                CourseId = trainerCourse.TrainerUser.CourseId,
             };
-            _context.TrainerCourses.Add(newTrainerCourse);
-            _context.SaveChanges();
-            return RedirectToAction("Index");
-        }
-        public ActionResult RemoveCourse(int id)
-        {
-            var trainerCourseInDb = _context.TrainerCourses.SingleOrDefault(c => c.Id == id);
-            _context.TrainerCourses.Remove(trainerCourseInDb);
+            var TrainerCourseInDb = _context.TrainerCourses.Add(newTrainerCourse);
+            var trainerUserObject = _context.TrainerUsers.SingleOrDefault(t => t.Id == TrainerCourseInDb.TrainerId);
+            var CourseObject = _context.Courses.SingleOrDefault(t => t.Id == TrainerCourseInDb.CourseId);
+            TrainerCourseInDb.TrainerName = trainerUserObject.UserName;
+            TrainerCourseInDb.CourseName = CourseObject.Name;
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
         [HttpGet]
         public ActionResult ChangeCourse(string id)
         {
-            var trainerCourse = _context.TrainerCourses.SingleOrDefault(c => c.TrainerId == id);
-            var viewModel = new UserCoursesViewModel()
-            {
-                TrainerUser = trainerCourse,
-                Courses = _context.Courses.ToList()
-            };
-            return View(viewModel);
+            return View();
         }
         [HttpPost]
         public ActionResult ChangeCourse(UserCoursesViewModel trainerCourse)
         {
-            var trainerCourseInDb = _context.TrainerCourses.SingleOrDefault(t => t.TrainerId == trainerCourse.TrainerUser.TrainerId);
-            trainerCourseInDb.CourseId = trainerCourse.TrainerUser.CourseId;
-            _context.SaveChanges();
-            return RedirectToAction("Index");
+            return View();
         }
     }
 }
