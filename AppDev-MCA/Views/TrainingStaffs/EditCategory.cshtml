@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "EditCategory";
+}
+
+<h2>EditCategory</h2>
+@using (Html.BeginForm("EditCategory", "TrainingStaffs", "POST"))
+{
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name)
+        @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Description)
+        @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Edit Category</button>
+    </div>
+}
+
