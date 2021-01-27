@@ -147,7 +147,12 @@ namespace AppDev_MCA.Controllers
             return RedirectToAction("Index");
         }
 
-
+        
+        public ActionResult ViewCourseAssigned(string id)
+        {
+            var trainerCourse = _context.TrainerCourses.Where(t => t.TrainerId == id).ToList();
+            return View(trainerCourse);
+        }
         public ActionResult RemoveCourse(int id)
         {
             var trainerCourseInDb = _context.TrainerCourses.SingleOrDefault(c => c.Id == id);
@@ -184,14 +189,25 @@ namespace AppDev_MCA.Controllers
             return RedirectToAction("Index");
         }
         [HttpGet]
-        public ActionResult ChangeCourse(string id)
+        public ActionResult ChangeCourse(int id)
         {
-            return View();
+            var trainerCourseInDb = _context.TrainerCourses.SingleOrDefault(t => t.Id == id);
+            var viewModel = new UserCoursesViewModel()
+            {
+                TrainerUser = trainerCourseInDb,
+                Courses = _context.Courses.ToList()
+            };
+            return View(viewModel);
         }
         [HttpPost]
         public ActionResult ChangeCourse(UserCoursesViewModel trainerCourse)
         {
-            return View();
+            var trainerCourseInDb = _context.TrainerCourses.SingleOrDefault(t => t.Id == trainerCourse.TrainerUser.Id);
+            var courseInDb = _context.Courses.SingleOrDefault(t => t.Id == trainerCourse.TrainerUser.CourseId);
+            trainerCourseInDb.CourseId = trainerCourse.TrainerUser.CourseId;
+            trainerCourseInDb.CourseName = courseInDb.Name;
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

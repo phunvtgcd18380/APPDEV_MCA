@@ -273,6 +273,8 @@
     <Content Include="Views\TrainingStaffs\AssignCourse.cshtml" />
     <Content Include="Views\TrainingStaffs\ListCategory.cshtml" />
     <Content Include="Views\TrainingStaffs\ListCourse.cshtml" />
+    <Content Include="Views\TrainingStaffs\ViewCourseAssigned.cshtml" />
+    <Content Include="Views\TrainingStaffs\ChangeCourse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

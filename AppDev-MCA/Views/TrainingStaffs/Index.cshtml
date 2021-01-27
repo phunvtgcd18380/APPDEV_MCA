@@ -18,8 +18,7 @@
             <td>@item.UserName</td>
             <td>
                 @Html.ActionLink("AssignCourse", "AssignCourse", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-primary" })
-                @Html.ActionLink("Edit", "EditCourse", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-default" })
-                @Html.ActionLink("Delete", "RemoveCourseCourse", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("ViewCourse", "ViewCourseAssigned", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-default" })
             </td>
 
         </tr>
