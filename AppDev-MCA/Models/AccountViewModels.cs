@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AppDev_MCA.Models
@@ -64,6 +65,15 @@ namespace AppDev_MCA.Models
 
     public class RegisterViewModel
     {
+        public string FullName { get; set; }
+        public string WorkingPlace { get; set; }
+        public string EmailAddress { get; set; }
+        public string Telephone { get; set; }
+        public TrainerUser.GetType Type { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public string mainProgrammingLangueage { get; set; }
+        public string ToeicSocre { get; set; }
+        public string Department { get; set; }
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

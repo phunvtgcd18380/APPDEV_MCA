@@ -199,12 +199,26 @@
     <Compile Include="Migrations\202101310815541_UpdateTrainerUserTable.Designer.cs">
       <DependentUpon>202101310815541_UpdateTrainerUserTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101310916401_CreateTableTraineeAndTraineeCourse.cs" />
+    <Compile Include="Migrations\202101310916401_CreateTableTraineeAndTraineeCourse.Designer.cs">
+      <DependentUpon>202101310916401_CreateTableTraineeAndTraineeCourse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202101310919222_UpdateTrainerUserTablee.cs" />
+    <Compile Include="Migrations\202101310919222_UpdateTrainerUserTablee.Designer.cs">
+      <DependentUpon>202101310919222_UpdateTrainerUserTablee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202101310929137_UpdateTrainerUserTableee.cs" />
+    <Compile Include="Migrations\202101310929137_UpdateTrainerUserTableee.Designer.cs">
+      <DependentUpon>202101310929137_UpdateTrainerUserTableee.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\TraineeCourse.cs" />
+    <Compile Include="Models\TraineeUser.cs" />
     <Compile Include="Models\TrainerCourse.cs" />
     <Compile Include="Models\TrainerUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -283,6 +297,7 @@
     <Content Include="Views\TrainingStaffs\ListTrainer.cshtml" />
     <Content Include="Views\TrainingStaffs\UpdateProfileTrainer.cshtml" />
     <Content Include="Views\TrainingStaffs\DetailProfileTrainer.cshtml" />
+    <Content Include="Views\TrainingStaffs\CreateTraineeAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -319,6 +334,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101310815541_UpdateTrainerUserTable.resx">
       <DependentUpon>202101310815541_UpdateTrainerUserTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101310916401_CreateTableTraineeAndTraineeCourse.resx">
+      <DependentUpon>202101310916401_CreateTableTraineeAndTraineeCourse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101310919222_UpdateTrainerUserTablee.resx">
+      <DependentUpon>202101310919222_UpdateTrainerUserTablee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101310929137_UpdateTrainerUserTableee.resx">
+      <DependentUpon>202101310929137_UpdateTrainerUserTableee.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

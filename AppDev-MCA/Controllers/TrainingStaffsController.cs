@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -249,6 +250,46 @@ namespace AppDev_MCA.Controllers
             trainerCourseInDb.CourseName = courseInDb.Name;
             _context.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+
+        public ActionResult CreateTraineeAccount()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateTraineeAccount(RegisterViewModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var today = DateTime.Today;
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                var userStore = new UserStore<ApplicationUser>(_context);
+                var userManager = new UserManager<ApplicationUser>(userStore);
+                    userManager.AddToRole(user.Id, "TRAINEE");
+                    var traineeUser = new TraineeUser()
+                    {
+                        Id = user.Id,
+                        UserName = user.UserName,
+                        FullName = model.FullName,
+                        DateOfBirth = model.DateOfBirth,
+                        age = today.Year - model.DateOfBirth.Year,
+                        Telephone = model.Telephone,
+                        mainProgrammingLanguage = model.mainProgrammingLangueage,
+                        ToeicScore =model.ToeicSocre,
+                        Department =model.Department
+                    };
+                    _context.TraineeUsers.Add(traineeUser);
+                    _context.SaveChanges();
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ListTrainer");
+                }
+                }
+            return View(model);
         }
     }
 }

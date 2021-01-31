@@ -28,6 +28,10 @@ namespace AppDev_MCA.Models
         public DbSet<Category> Categories { get; set; }
         public DbSet<TrainerCourse> TrainerCourses { get; set; }
         public DbSet<TrainerUser> TrainerUsers { get; set; }
+        public DbSet<TraineeCourse> TraineeCourses { get; set; }
+
+        public DbSet<TraineeUser> TraineeUsers { get; set; }
+
 
         public static ApplicationDbContext Create()
         {
