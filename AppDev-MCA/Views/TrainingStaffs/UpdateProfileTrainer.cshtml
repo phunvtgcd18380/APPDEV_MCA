@@ -1,0 +1,32 @@
+﻿@model AppDev_MCA.Models.TrainerUser
+@{
+    ViewBag.Title = "UpdateProfileTrainer";
+}
+
+<h2>UpdateProfileTrainer</h2>
+
+@using (Html.BeginForm("UpdateProfileTrainer", "TrainingStaffs", "POST"))
+{
+    <div class="form-group">
+        @Html.LabelFor(model => model.Telephone)
+        @Html.TextAreaFor(model => model.Telephone, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.WorkingPlace)
+        @Html.TextAreaFor(model => model.WorkingPlace, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.type)
+        @Html.EnumDropDownListFor(model => model.type, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.EmailAddress)
+        @Html.TextAreaFor(model => model.EmailAddress, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Confirm changes</button>
+    </div>
+}

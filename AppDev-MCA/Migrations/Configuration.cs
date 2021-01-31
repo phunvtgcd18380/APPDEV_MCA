@@ -21,7 +21,12 @@ namespace AppDev_MCA.Migrations
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
-            
+            CreateUser(context, "trainer1@mail.com", "123");
+            CreateUser(context, "trainer2@mail.com", "123");
+            AddUserToRole(context, "trainer1@mail.com", "TRAINER");
+            AddUserToRole(context, "trainer2@mail.com", "TRAINER");
+
+
         }
         private void CreateRole(ApplicationDbContext context, string roleName)
         {

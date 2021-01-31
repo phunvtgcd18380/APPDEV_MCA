@@ -168,6 +168,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TrainingStaffsController.cs" />
@@ -193,6 +194,10 @@
     <Compile Include="Migrations\202101261255467_createTableTrainerCourses.cs" />
     <Compile Include="Migrations\202101261255467_createTableTrainerCourses.Designer.cs">
       <DependentUpon>202101261255467_createTableTrainerCourses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202101310815541_UpdateTrainerUserTable.cs" />
+    <Compile Include="Migrations\202101310815541_UpdateTrainerUserTable.Designer.cs">
+      <DependentUpon>202101310815541_UpdateTrainerUserTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -275,9 +280,13 @@
     <Content Include="Views\TrainingStaffs\ListCourse.cshtml" />
     <Content Include="Views\TrainingStaffs\ViewCourseAssigned.cshtml" />
     <Content Include="Views\TrainingStaffs\ChangeCourse.cshtml" />
+    <Content Include="Views\TrainingStaffs\ListTrainer.cshtml" />
+    <Content Include="Views\TrainingStaffs\UpdateProfileTrainer.cshtml" />
+    <Content Include="Views\TrainingStaffs\DetailProfileTrainer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Admins\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -307,6 +316,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101261255467_createTableTrainerCourses.resx">
       <DependentUpon>202101261255467_createTableTrainerCourses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101310815541_UpdateTrainerUserTable.resx">
+      <DependentUpon>202101310815541_UpdateTrainerUserTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

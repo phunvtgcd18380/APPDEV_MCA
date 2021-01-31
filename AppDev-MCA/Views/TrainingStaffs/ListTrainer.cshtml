@@ -1,0 +1,30 @@
+﻿@model IEnumerable<AppDev_MCA.Models.TrainerUser>
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Index</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>TrainerName</th>
+            <th>Action</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.UserName</td>
+                <td>
+                    @Html.ActionLink("AssignCourse", "AssignCourse", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("ViewCourse", "ViewCourseAssigned", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-default" })
+                    @Html.ActionLink("Update Profile", "UpdateProfileTrainer", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-default" })
+                    @Html.ActionLink("Remove User", "RemoveTrainer", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-default" })
+                    @Html.ActionLink("Detail", "DetailProfileTrainer", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-default" })
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

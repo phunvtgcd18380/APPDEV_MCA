@@ -12,11 +12,20 @@ namespace AppDev_MCA.Models
         [Key]
         public string Id { get; set; }
         public string UserName { get; set; }
-        public string Type { get; set; }
+        public GetType type { get; set; }
+        public enum GetType
+        {
+            [Display(Name = "Selecte Type")]
+            Selectetype = 0,
+            Internal = 1,
+            External = 2
+        }
+
         public string Telephone { get; set; }
         public string WorkingPlace { get; set; }
         public string EmailAddress { get; set; }
         [ForeignKey("Id")]
         public ApplicationUser ApplicationUser { get; set; }
     }
+
 }

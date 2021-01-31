@@ -100,7 +100,7 @@ namespace AppDev_MCA.Controllers
             var courseInDb = _context.Courses.SingleOrDefault(c => c.Id == id);
             _context.Courses.Remove(courseInDb);
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("ListCourse");
         }
         [HttpGet]
         public ActionResult CreateCourse()
@@ -147,7 +147,48 @@ namespace AppDev_MCA.Controllers
             return RedirectToAction("Index");
         }
 
+
         
+        public ActionResult ListTrainer()
+        {
+            var trainerUsers = _context.TrainerUsers.ToList();
+            return View(trainerUsers);
+        }
+        [HttpGet]
+        public ActionResult UpdateProfileTrainer(string id)
+        {
+            var trainerInDb = _context.TrainerUsers.SingleOrDefault(t => t.Id == id);
+            return View(trainerInDb);
+        }
+        [HttpPost]
+        public ActionResult UpdateProfileTrainer(TrainerUser trainer)
+        {
+            var trainerInDb = _context.TrainerUsers.SingleOrDefault(t => t.Id == trainer.Id);
+            {
+                trainerInDb.WorkingPlace = trainer.WorkingPlace;
+                trainerInDb.type = trainer.type;
+                trainerInDb.Telephone = trainer.Telephone;
+                trainerInDb.EmailAddress = trainer.EmailAddress;
+            }
+            _context.SaveChanges();
+            return RedirectToAction("ListTrainer");
+        }
+        public ActionResult DetailProfileTrainer(string id)
+        {
+            var trainerInDb = _context.TrainerUsers.SingleOrDefault(t => t.Id == id);
+            return View(trainerInDb);
+        }
+        public ActionResult RemoveTrainer(string id)
+        {
+            var UserInDb = _context.Users.SingleOrDefault(t => t.Id == id);
+            var TrainerInDb = _context.TrainerUsers.SingleOrDefault(t => t.Id == id);
+            _context.TrainerUsers.Remove(TrainerInDb);
+            _context.Users.Remove(UserInDb);
+            _context.SaveChanges();
+            return RedirectToAction("ListTrainer");
+        }
+
+
         public ActionResult ViewCourseAssigned(string id)
         {
             var trainerCourse = _context.TrainerCourses.Where(t => t.TrainerId == id).ToList();
