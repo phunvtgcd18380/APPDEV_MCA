@@ -1,5 +1,6 @@
 ﻿using AppDev_MCA.Models;
 using AppDev_MCA.ViewModel;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -23,10 +24,16 @@ namespace AppDev_MCA.Controllers
             );
         }
         // GET: TrainingStaffs
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
-            var trainerUsers = _context.TrainerUsers.ToList();
-            return View(trainerUsers);
+            var traineeInDb = _context.TraineeUsers.ToList();
+            if (!searchString.IsNullOrWhiteSpace())
+            {
+                traineeInDb = _context.TraineeUsers
+                .Where(m => m.FullName.Contains(searchString) || m.mainProgrammingLanguage.Contains(searchString))
+                .ToList();
+            }
+            return View(traineeInDb);
         }
         public ActionResult ListCategory()
         {
@@ -267,9 +274,9 @@ namespace AppDev_MCA.Controllers
                 var today = DateTime.Today;
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
-                var userStore = new UserStore<ApplicationUser>(_context);
-                var userManager = new UserManager<ApplicationUser>(userStore);
-                    userManager.AddToRole(user.Id, "TRAINEE");
+                if (result.Succeeded)
+                {
+                    _userManager.AddToRole(user.Id, "TRAINEE");
                     var traineeUser = new TraineeUser()
                     {
                         Id = user.Id,
@@ -279,17 +286,97 @@ namespace AppDev_MCA.Controllers
                         age = today.Year - model.DateOfBirth.Year,
                         Telephone = model.Telephone,
                         mainProgrammingLanguage = model.mainProgrammingLangueage,
-                        ToeicScore =model.ToeicSocre,
-                        Department =model.Department
+                        ToeicScore = model.ToeicSocre,
+                        Department = model.Department
                     };
                     _context.TraineeUsers.Add(traineeUser);
+                }
                     _context.SaveChanges();
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("ListTrainer");
+                    return RedirectToAction("Index");
                 }
                 }
             return View(model);
+        }
+
+        public async Task<ActionResult> ResetPassword(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            await _userManager.RemovePasswordAsync(user.Id);
+            await _userManager.AddPasswordAsync(user.Id, "12345678");
+            await _userManager.UpdateAsync(user);
+            return RedirectToAction("Index");
+        }
+        public ActionResult RemoveTrainee(string id)
+        {
+            var UserInDb = _context.Users.SingleOrDefault(t => t.Id == id);
+            var TraineeInDb = _context.TraineeUsers.SingleOrDefault(t => t.Id == id);
+            _context.TraineeUsers.Remove(TraineeInDb);
+            _context.Users.Remove(UserInDb);
+            _context.SaveChanges();
+            return RedirectToAction("Index"); ;
+        }
+        public ActionResult RemoveCourseTrainee(int id)
+        {
+            var traineeCourseInDb = _context.TraineeCourses.SingleOrDefault(c => c.Id == id);
+            _context.TraineeCourses.Remove(traineeCourseInDb);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public ActionResult AssignCourseTrainee(string id)
+        {
+            var UserInDb = _context.Users.SingleOrDefault(t => t.Id == id);
+            var viewModel = new TraineeUserCoursesViewModel()
+            {
+                User = UserInDb,
+                Courses = _context.Courses.ToList()
+            };
+            return View(viewModel);
+        }
+        [HttpPost]
+        public ActionResult AssignCourseTrainee(TraineeUserCoursesViewModel traineeCourse)
+        {
+
+            var newTraineeCourse = new TraineeCourse()
+            {
+                TraineeId = traineeCourse.User.Id,
+                CourseId = traineeCourse.TraineeUser.CourseId,
+            };
+            var TraineeCourseInDb = _context.TraineeCourses.Add(newTraineeCourse);
+            var traineeUserObject = _context.TraineeUsers.SingleOrDefault(t => t.Id == TraineeCourseInDb.TraineeId);
+            var CourseObject = _context.Courses.SingleOrDefault(t => t.Id == TraineeCourseInDb.CourseId);
+            TraineeCourseInDb.TraineeName = traineeUserObject.UserName;
+            TraineeCourseInDb.CourseName = CourseObject.Name;
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public ActionResult ChangeCourseTrainee(int id)
+        {
+            var traineeCourseInDb = _context.TraineeCourses.SingleOrDefault(t => t.Id == id);
+            var viewModel = new TraineeUserCoursesViewModel()
+            {
+                TraineeUser = traineeCourseInDb,
+                Courses = _context.Courses.ToList()
+            };
+            return View(viewModel);
+        }
+        [HttpPost]
+        public ActionResult ChangeCourseTrainee(TraineeUserCoursesViewModel traineeCourse)
+        {
+            var traineeCourseInDb = _context.TrainerCourses.SingleOrDefault(t => t.Id == traineeCourse.TraineeUser.Id);
+            var courseInDb = _context.Courses.SingleOrDefault(t => t.Id == traineeCourse.TraineeUser.CourseId);
+            traineeCourseInDb.CourseId = traineeCourse.TraineeUser.CourseId;
+            traineeCourseInDb.CourseName = courseInDb.Name;
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        public ActionResult ViewCourseAssignedTrainee(string id)
+        {
+            var traineeCourse = _context.TraineeCourses.Where(t => t.TraineeId == id).ToList();
+            return View(traineeCourse);
         }
     }
 }

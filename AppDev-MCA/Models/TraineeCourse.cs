@@ -12,8 +12,8 @@ namespace AppDev_MCA.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public string TrainerId { get; set; }
-        [ForeignKey("TrainerId")]
+        public string TraineeId { get; set; }
+        [ForeignKey("TraineeId")]
         public ApplicationUser ApplicationUser { get; set; }
         public string TraineeName { get; set; }
         [Required]

@@ -211,6 +211,10 @@
     <Compile Include="Migrations\202101310929137_UpdateTrainerUserTableee.Designer.cs">
       <DependentUpon>202101310929137_UpdateTrainerUserTableee.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202102010901330_updateTraineeTable.cs" />
+    <Compile Include="Migrations\202102010901330_updateTraineeTable.Designer.cs">
+      <DependentUpon>202102010901330_updateTraineeTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
@@ -224,6 +228,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\CourseCategoriesViewModel.cs" />
+    <Compile Include="ViewModel\TraineeUserCoursesViewModel.cs" />
     <Compile Include="ViewModel\UserCoursesViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -298,6 +303,9 @@
     <Content Include="Views\TrainingStaffs\UpdateProfileTrainer.cshtml" />
     <Content Include="Views\TrainingStaffs\DetailProfileTrainer.cshtml" />
     <Content Include="Views\TrainingStaffs\CreateTraineeAccount.cshtml" />
+    <Content Include="Views\TrainingStaffs\AssignCourseTrainee.cshtml" />
+    <Content Include="Views\TrainingStaffs\ChangeCourseTrainee.cshtml" />
+    <Content Include="Views\TrainingStaffs\ViewCourseAssignedTrainee.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -343,6 +351,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101310929137_UpdateTrainerUserTableee.resx">
       <DependentUpon>202101310929137_UpdateTrainerUserTableee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102010901330_updateTraineeTable.resx">
+      <DependentUpon>202102010901330_updateTraineeTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
