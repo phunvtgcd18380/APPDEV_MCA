@@ -7,7 +7,7 @@ using System.Web;
 
 namespace AppDev_MCA.Models
 {
-    public class TrainerCourse
+    public class TrainerCourse //
     {
         [Key]
         public int Id { get; set; }

@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -35,9 +36,15 @@ namespace AppDev_MCA.Controllers
             }
             return View(traineeInDb);
         }
-        public ActionResult ListCategory()
+        public ActionResult ListCategory(string searchString)
         {
             var categories = _context.Categories.ToList();
+            if (!searchString.IsNullOrWhiteSpace())
+            {
+                categories = _context.Categories
+                .Where(c => c.Name.Contains(searchString))
+                .ToList();
+            }
             return View(categories);
         }
         public ActionResult DetailCategory(int id)
@@ -88,9 +95,16 @@ namespace AppDev_MCA.Controllers
         }
 
 
-        public ActionResult ListCourse()
+        public ActionResult ListCourse(string searchString)
         {
-            var course = _context.Courses.ToList();
+            var course = _context.Courses.Include(c => c.Category).ToList();
+            if (!searchString.IsNullOrWhiteSpace())
+            {
+                course = _context.Courses
+                .Where(c => c.Name.Contains(searchString) || c.Category.Name.Contains(searchString) )
+                .Include(c => c.Category)
+                .ToList();
+            }
             return View(course);
         }
         public ActionResult DetailCourse(int id)

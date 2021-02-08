@@ -171,6 +171,8 @@
     <Compile Include="Controllers\AdminsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\TraineesController.cs" />
+    <Compile Include="Controllers\TrainersController.cs" />
     <Compile Include="Controllers\TrainingStaffsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -310,6 +312,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Admins\" />
+    <Folder Include="Views\Trainees\" />
+    <Folder Include="Views\Trainers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

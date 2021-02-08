@@ -3,10 +3,21 @@
     ViewBag.Title = "Index";
 }
 <h2>Index</h2>
+@using (Html.BeginForm("ListCourse", "TrainingStaffs", "POST"))
+{
+    <div class="form-group">
+        <label for="fname">Search by Task Name:</label><br>
+        @Html.TextBox("searchString", null, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+}
 @Html.ActionLink("Create", "CreateCourse", "TrainingStaffs", null, new { @class = "btn btn-primary" })
 <table class="table table-bordered">
     <thead>
         <tr>
+            <th>Course Name</th>
             <th>Category Name</th>
             <th>Action</th>
 
@@ -17,6 +28,7 @@
         {
             <tr>
                 <td>@item.Name</td>
+                <td>@item.Category.Name</td>
                 <td>
                     @Html.ActionLink("Details", "DetailCourse", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-primary" })
                     @Html.ActionLink("Edit", "EditCourse", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-default" })
