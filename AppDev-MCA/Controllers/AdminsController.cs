@@ -26,12 +26,18 @@ namespace AppDev_MCA.Controllers
         {
             return View();
         }
+        public ActionResult ListTrainingStaff()
+        {
+            var roleid = _context.Roles.Where(x => x.Name.Equals("STAFF")).FirstOrDefault().Id;
+            var staffInDb = _context.Users.Where(s => s.Roles.Any(r => r.RoleId == roleid));
+            return View(staffInDb);
+        }
         public ActionResult RemoveTrainingStaffAccount(string id)
         {
             var userInDb = _context.Users.SingleOrDefault(s => s.Id == id);
             _context.Users.Remove(userInDb);
             _context.SaveChanges();
-            return View("Index");
+            return RedirectToAction("ListTrainingStaff");
         }
         [HttpGet]
         public ActionResult CreateTrainingStaff()
@@ -48,10 +54,19 @@ namespace AppDev_MCA.Controllers
                 await _userManager.AddToRoleAsync(user.Id, "STAFF");
             }
             _context.SaveChanges();
+            if (result.Succeeded)
+            {
+                return RedirectToAction("ListTrainingStaff");
+            }
             return View(model);
         }
 
 
+        public ActionResult ListTrainer()
+        {
+            var TrainerInDb = _context.TrainerUsers.ToList();
+            return View(TrainerInDb);
+        }
         public ActionResult ResetPassword(string id)
         {
             var user = _userManager.FindById(id);
@@ -60,14 +75,14 @@ namespace AppDev_MCA.Controllers
             _userManager.Update(user);
             return View();
         }
-        public ActionResult RemoveTranerAccount(string id)
+        public ActionResult RemoveTrainerAccount(string id)
         {
             var userInDb = _context.Users.SingleOrDefault(s => s.Id == id);
             var trainerInDb = _context.TrainerUsers.SingleOrDefault(t => t.Id == id);
             _context.TrainerUsers.Remove(trainerInDb);
             _context.Users.Remove(userInDb);
             _context.SaveChanges();
-            return View("Index");
+            return RedirectToAction("ListTrainer");
         }
         public ActionResult CreateTrainerAccount()
         {
@@ -93,6 +108,10 @@ namespace AppDev_MCA.Controllers
                 _context.TrainerUsers.Add(trainerUser);
             }
             _context.SaveChanges();
+            if (result.Succeeded)
+            {
+                return RedirectToAction("ListTrainer");
+            }
             return View(model);
         }
     }
