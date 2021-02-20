@@ -1,42 +1,9 @@
-﻿@model IEnumerable<AppDev_MCA.Models.TraineeUser>
+﻿
 @{
     ViewBag.Title = "Index";
 }
 <h2>Index</h2>
-@using (Html.BeginForm("Index", "TrainingStaffs", "POST"))
-{
-    <div class="form-group">
-        <label for="fname">Search by Task Name:</label><br>
-        @Html.TextBox("searchString", null, new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Search</button>
-    </div>
-}
+@Html.ActionLink("Manage Course", "ListCourse", "TrainingStaffs", null, new { @class = "btn btn-primary" })
+@Html.ActionLink("Manage Category", "ListCategory", "TrainingStaffs", null, new { @class = "btn btn-primary" })
+@Html.ActionLink("Manage Account", "ManageAccount", "TrainingStaffs", null, new { @class = "btn btn-primary" })
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>TrainerName</th>
-            <th>Action</th>
-
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.UserName</td>
-                <td>
-                    @Html.ActionLink("AssignCourse", "AssignCourse", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-primary" })
-                    @Html.ActionLink("ViewCourse", "ViewCourseAssigned", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-default" })
-                    @Html.ActionLink("ResetPassword", "ResetPassword", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-default" })
-                    @Html.ActionLink("Remove User", "RemoveTrainee", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-default" })
-                    @Html.ActionLink("AssignCourseTrainee", "AssignCourseTrainee", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-primary" })
-                    @Html.ActionLink("ViewCourseTrainee", "ViewCourseAssignedTrainee", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-default" })
-                </td>
-
-            </tr>
-        }
-    </tbody>
-</table>

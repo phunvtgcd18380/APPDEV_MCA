@@ -1,0 +1,21 @@
+﻿@model AppDev_MCA.Models.TraineeUser
+@{
+    ViewBag.Title = "ViewProfile";
+}
+
+<h2>ViewProfile</h2>
+@Html.ActionLink("Back to Home", "Index", "Trainees",
+    null,
+    new { @class = "btn btn-primary" })
+<ul>
+    <li>E-Mail: @Model.UserName</li>
+    <li>Full Name: @Model.FullName</li>
+    <li>Date Of Birth: @Model.DateOfBirth</li>
+    <li>Age: @Model.age</li>
+    <li>Phone Number: @Model.Telephone</li>
+    <li>Department : @Model.Department</li>
+    <li>Toeic Scord: @Model.ToeicScore</li>
+    <li>Progamming Language: @Model.mainProgrammingLanguage</li>
+    <li>Email: @Model.EmailAddress</li>
+
+</ul>

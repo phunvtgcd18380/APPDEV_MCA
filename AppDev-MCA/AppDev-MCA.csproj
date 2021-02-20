@@ -313,11 +313,21 @@
     <Content Include="Views\Admins\CreateTrainerAccount.cshtml" />
     <Content Include="Views\Admins\ListTrainingStaff.cshtml" />
     <Content Include="Views\Admins\ListTrainer.cshtml" />
+    <Content Include="Views\Trainers\Index.cshtml" />
+    <Content Include="Views\Trainers\UpdateProfile.cshtml" />
+    <Content Include="Views\Trainers\ChangePassword.cshtml" />
+    <Content Include="Views\Trainers\ViewAssignedCourse.cshtml" />
+    <Content Include="Views\Trainees\ViewProfile.cshtml" />
+    <Content Include="Views\Trainees\Index.cshtml" />
+    <Content Include="Views\Trainees\ChangePassword.cshtml" />
+    <Content Include="Views\Trainees\ViewCourse.cshtml" />
+    <Content Include="Views\Trainees\ViewAssignedCourse.cshtml" />
+    <Content Include="Views\TrainingStaffs\ListTrainee.cshtml" />
+    <Content Include="Views\TrainingStaffs\ManageAccount.cshtml" />
+    <Content Include="Views\Trainers\ViewProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Trainees\" />
-    <Folder Include="Views\Trainers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

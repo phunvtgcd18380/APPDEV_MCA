@@ -13,6 +13,7 @@ using System.Web.Mvc;
 
 namespace AppDev_MCA.Controllers
 {
+    [Authorize(Roles = "STAFF")]
     public class TrainingStaffsController : Controller
     {
         private ApplicationDbContext _context;
@@ -25,16 +26,13 @@ namespace AppDev_MCA.Controllers
             );
         }
         // GET: TrainingStaffs
-        public ActionResult Index(string searchString)
+        public ActionResult Index()
         {
-            var traineeInDb = _context.TraineeUsers.ToList();
-            if (!searchString.IsNullOrWhiteSpace())
-            {
-                traineeInDb = _context.TraineeUsers
-                .Where(m => m.FullName.Contains(searchString) || m.mainProgrammingLanguage.Contains(searchString))
-                .ToList();
-            }
-            return View(traineeInDb);
+            return View();
+        }
+        public ActionResult ManageAccount()
+        {
+            return View();
         }
         public ActionResult ListCategory(string searchString)
         {
@@ -58,7 +56,7 @@ namespace AppDev_MCA.Controllers
             var categoryInDb = _context.Categories.SingleOrDefault(c => c.Id == id);
             _context.Categories.Remove(categoryInDb);
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("ListCategory");
         }
         [HttpGet]
         public ActionResult CreateCategory()
@@ -75,7 +73,7 @@ namespace AppDev_MCA.Controllers
             };
             _context.Categories.Add(newCategories);
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("ListCategory");
         }
 
         [HttpGet]
@@ -91,7 +89,7 @@ namespace AppDev_MCA.Controllers
             categoryInDb.Name = category.Name;
             categoryInDb.Description = category.Description;
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("ListCategory");
         }
 
 
@@ -144,7 +142,7 @@ namespace AppDev_MCA.Controllers
             };
             _context.Courses.Add(newCourse);
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("ListCourse");
         }
 
         [HttpGet]
@@ -166,7 +164,7 @@ namespace AppDev_MCA.Controllers
             courseInDb.Description = course.Courses.Description;
             courseInDb.CategoryId = course.Courses.CategoryId;
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("ListCourse");
         }
 
 
@@ -221,7 +219,7 @@ namespace AppDev_MCA.Controllers
             var trainerCourseInDb = _context.TrainerCourses.SingleOrDefault(c => c.Id == id);
             _context.TrainerCourses.Remove(trainerCourseInDb);
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("ListTrainer");
         }
         [HttpGet]
         public ActionResult AssignCourse(string id)
@@ -249,7 +247,7 @@ namespace AppDev_MCA.Controllers
             TrainerCourseInDb.TrainerName = trainerUserObject.UserName;
             TrainerCourseInDb.CourseName = CourseObject.Name;
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("ListTrainer");
         }
         [HttpGet]
         public ActionResult ChangeCourse(int id)
@@ -270,10 +268,20 @@ namespace AppDev_MCA.Controllers
             trainerCourseInDb.CourseId = trainerCourse.TrainerUser.CourseId;
             trainerCourseInDb.CourseName = courseInDb.Name;
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("ViewCourseAssigned");
         }
 
-
+        public ActionResult ListTrainee(string searchString)
+        {
+            var traineeInDb = _context.TraineeUsers.ToList();
+            if (!searchString.IsNullOrWhiteSpace())
+            {
+                traineeInDb = _context.TraineeUsers
+                .Where(m => m.FullName.Contains(searchString) || m.mainProgrammingLanguage.Contains(searchString))
+                .ToList();
+            }
+            return View(traineeInDb);
+        }
         public ActionResult CreateTraineeAccount()
         {
             return View();
@@ -308,19 +316,19 @@ namespace AppDev_MCA.Controllers
                     _context.SaveChanges();
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("ListTrainee");
                 }
                 }
             return View(model);
         }
 
-        public async Task<ActionResult> ResetPassword(string id)
+        public ActionResult ResetPassword(string id)
         {
-            var user = await _userManager.FindByIdAsync(id);
-            await _userManager.RemovePasswordAsync(user.Id);
-            await _userManager.AddPasswordAsync(user.Id, "12345678");
-            await _userManager.UpdateAsync(user);
-            return RedirectToAction("Index");
+            var user = _userManager.FindById(id);
+            _userManager.RemovePassword(user.Id);
+            _userManager.AddPassword(user.Id, "12345678");
+            _userManager.Update(user);
+            return RedirectToAction("ManageAccount");
         }
         public ActionResult RemoveTrainee(string id)
         {
@@ -329,14 +337,14 @@ namespace AppDev_MCA.Controllers
             _context.TraineeUsers.Remove(TraineeInDb);
             _context.Users.Remove(UserInDb);
             _context.SaveChanges();
-            return RedirectToAction("Index"); ;
+            return RedirectToAction("ListTrainee"); ;
         }
         public ActionResult RemoveCourseTrainee(int id)
         {
             var traineeCourseInDb = _context.TraineeCourses.SingleOrDefault(c => c.Id == id);
             _context.TraineeCourses.Remove(traineeCourseInDb);
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("ViewCourseAssignedTrainee");
         }
         [HttpGet]
         public ActionResult AssignCourseTrainee(string id)
@@ -364,7 +372,7 @@ namespace AppDev_MCA.Controllers
             TraineeCourseInDb.TraineeName = traineeUserObject.UserName;
             TraineeCourseInDb.CourseName = CourseObject.Name;
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("ListTrainee");
         }
         [HttpGet]
         public ActionResult ChangeCourseTrainee(int id)
@@ -385,7 +393,7 @@ namespace AppDev_MCA.Controllers
             traineeCourseInDb.CourseId = traineeCourse.TraineeUser.CourseId;
             traineeCourseInDb.CourseName = courseInDb.Name;
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("ViewCourseAssignedTrainee");
         }
         public ActionResult ViewCourseAssignedTrainee(string id)
         {

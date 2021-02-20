@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace AppDev_MCA.Controllers
 {
+    [Authorize(Roles = "TRAINEE")]
     public class TraineesController : Controller
     {
         private ApplicationDbContext _context;
@@ -47,7 +48,7 @@ namespace AppDev_MCA.Controllers
             _userManager.RemovePassword(CurrentTraineeId);
             _userManager.AddPassword(CurrentTraineeId, newPassword);
             _userManager.Update(TraineeInDb);
-            return View();
+            return RedirectToAction("Index");
         }
         public ActionResult ViewCourse(string searchString)
         {
@@ -64,7 +65,7 @@ namespace AppDev_MCA.Controllers
         public ActionResult ViewAssignedCourse()
         {
             var CurrentTraineeId = User.Identity.GetUserId();
-            var traineeCourse = _context.TrainerCourses.Where(t => t.TrainerId == CurrentTraineeId).ToList();
+            var traineeCourse = _context.TraineeCourses.Where(t => t.TraineeId == CurrentTraineeId).Include(c => c.Course.Category).ToList();
             return View(traineeCourse);
         }
     }

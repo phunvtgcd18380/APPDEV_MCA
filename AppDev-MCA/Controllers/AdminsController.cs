@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace AppDev_MCA.Controllers
 {
+    [Authorize(Roles = "ADMIN")]
     public class AdminsController : Controller
     {
         private ApplicationDbContext _context;
@@ -70,10 +71,10 @@ namespace AppDev_MCA.Controllers
         public ActionResult ResetPassword(string id)
         {
             var user = _userManager.FindById(id);
-            _userManager.RemovePassword(user.Id);
-            _userManager.AddPassword(user.Id, "123456");
-            _userManager.Update(user);
-            return View();
+             _userManager.RemovePassword(user.Id);
+             _userManager.AddPassword(user.Id, "12345678");
+             _userManager.Update(user);
+            return RedirectToAction("ListTrainingStaff");
         }
         public ActionResult RemoveTrainerAccount(string id)
         {
@@ -103,7 +104,8 @@ namespace AppDev_MCA.Controllers
                     FullName = model.FullName,
                     Telephone = model.Telephone,
                     WorkingPlace = model.WorkingPlace,
-                    type = model.Type
+                    type = model.Type,
+                    EmailAddress = user.UserName
                 };
                 _context.TrainerUsers.Add(trainerUser);
             }

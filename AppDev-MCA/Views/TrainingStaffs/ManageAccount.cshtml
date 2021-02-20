@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewBag.Title = "ManageAccount";
+}
+
+<h2>ManageAccount</h2>
+@Html.ActionLink("Back to Home", "Index", "TrainingStaffs",
+    null,
+    new { @class = "btn btn-primary" })
+
+@Html.ActionLink("Manage Trainer", "ListTrainer", "TrainingStaffs", null, new { @class = "btn btn-primary" })
+@Html.ActionLink("Manage Trainee", "ListTrainee", "TrainingStaffs", null, new { @class = "btn btn-primary" })

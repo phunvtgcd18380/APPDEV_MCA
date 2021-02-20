@@ -1,8 +1,11 @@
 ﻿@model IEnumerable<AppDev_MCA.Models.TrainerUser>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "ListTrainer";
 }
-<h2>Index</h2>
+<h2>ListTrainer</h2>
+@Html.ActionLink("Back to Manage Account", "ManageAccount", "TrainingStaffs",
+    null,
+    new { @class = "btn btn-primary" })
 <table class="table table-bordered">
     <thead>
         <tr>

@@ -1,0 +1,28 @@
+﻿@model IEnumerable<AppDev_MCA.Models.TrainerCourse>
+@{
+    ViewBag.Title = "ViewAssignedCourse";
+}
+
+<h2>View Courses are Assigned</h2>
+@Html.ActionLink("Back to Home", "Index", "Trainers",
+    null,
+    new { @class = "btn btn-primary" })
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>CourseName</th>
+            <th>Action</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.CourseName</td>
+                <td>@item.Course.Category.Name</td>
+
+            </tr>
+        }
+    </tbody>
+</table>

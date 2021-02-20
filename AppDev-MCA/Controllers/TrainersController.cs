@@ -3,12 +3,14 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
 namespace AppDev_MCA.Controllers
 {
+    [Authorize(Roles ="TRAINER")]
     public class TrainersController : Controller
     {
         private ApplicationDbContext _context;
@@ -25,10 +27,18 @@ namespace AppDev_MCA.Controllers
         {
             return View();
         }
+        public ActionResult ViewProfile()
+        {
+            var CurrentTrainerId = User.Identity.GetUserId();
+            var TrainerInDb = _context.TrainerUsers.SingleOrDefault(t => t.Id == CurrentTrainerId);
+            return View(TrainerInDb);
+        }
         [HttpGet]
         public ActionResult UpdateProfile()
         {
-            return View();
+            var CurrentUserId = User.Identity.GetUserId();
+            var UserInDb = _context.TrainerUsers.SingleOrDefault(c => c.Id == CurrentUserId);
+            return View(UserInDb);
         }
         [HttpPost]
         public ActionResult UpdateProfile(TrainerUser trainer)
@@ -61,12 +71,12 @@ namespace AppDev_MCA.Controllers
             _userManager.RemovePassword(CurrentTrainerId);
             _userManager.AddPassword(CurrentTrainerId, newPassword);
             _userManager.Update(TrainerInDb);
-            return View();
+            return RedirectToAction("Index");
         }
         public ActionResult ViewAssignedCourse()
         {
             var CurrentTrainerId = User.Identity.GetUserId();
-            var trainerCourse = _context.TrainerCourses.Where(t => t.TrainerId == CurrentTrainerId).ToList();
+            var trainerCourse = _context.TrainerCourses.Where(t => t.TrainerId == CurrentTrainerId).Include(c => c.Course.Category).ToList();
             return View(trainerCourse);
         }
     }
