@@ -304,15 +304,14 @@ namespace AppDev_MCA.Controllers
             return View();
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateTraineeAccount(RegisterViewModel model)
+        public ActionResult CreateTraineeAccount(RegisterViewModel model)
         {
 
             if (ModelState.IsValid)
             {
                 var today = DateTime.Today;
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
+                var result = _userManager.Create(user, model.Password);
                 if (result.Succeeded)
                 {
                     _userManager.AddToRole(user.Id, "TRAINEE");

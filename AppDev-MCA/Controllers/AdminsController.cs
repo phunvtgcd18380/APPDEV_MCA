@@ -47,13 +47,13 @@ namespace AppDev_MCA.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<ActionResult> CreateTrainingStaff(RegisterViewModel model)
+        public ActionResult CreateTrainingStaff(RegisterViewModel model)
         {
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-            var result = await _userManager.CreateAsync(user, model.Password);
+            var result = _userManager.Create(user, model.Password);
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user.Id, "STAFF");
+                 _userManager.AddToRole(user.Id, "STAFF");
             }
             _context.SaveChanges();
             if (result.Succeeded)
@@ -97,13 +97,13 @@ namespace AppDev_MCA.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<ActionResult> CreateTrainerAccount(RegisterViewModel model)
+        public ActionResult CreateTrainerAccount(RegisterViewModel model)
         {
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-            var result = await _userManager.CreateAsync(user, model.Password);
+            var result =  _userManager.Create(user, model.Password);
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user.Id, "TRAINER");
+                 _userManager.AddToRole(user.Id, "TRAINER");
                 var trainerUser = new TrainerUser()
                 {
                     Id = user.Id,
