@@ -55,7 +55,7 @@ namespace AppDev_MCA.Controllers
             TrainerInDb.WorkingPlace = trainer.WorkingPlace;
             TrainerInDb.UserName = trainer.EmailAddress;
             _context.SaveChanges();
-            return View();
+            return RedirectToAction("Index", "Home");
         }
         [HttpGet]
         public ActionResult ChangePassword ()
@@ -66,12 +66,12 @@ namespace AppDev_MCA.Controllers
         public ActionResult ChangePassword(string password)
         {
             var CurrentTrainerId = User.Identity.GetUserId();
-            var TrainerInDb = _context.Users.SingleOrDefault(c => c.Id == CurrentTrainerId);
+            var TrainerInDb = _userManager.FindById(CurrentTrainerId);
             string newPassword = password;
             _userManager.RemovePassword(CurrentTrainerId);
             _userManager.AddPassword(CurrentTrainerId, newPassword);
             _userManager.Update(TrainerInDb);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Home");
         }
         public ActionResult ViewAssignedCourse()
         {

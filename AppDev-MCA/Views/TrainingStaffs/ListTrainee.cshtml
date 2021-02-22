@@ -4,13 +4,19 @@
 }
 
 <h2>ListTrainee</h2>
-@Html.ActionLink("Back to Manage Account", "ListTrainee", "TrainingStaffs",
+<div class="form-group">
+@Html.ActionLink("Back to Manage Account", "ManageAccount", "TrainingStaffs",
     null,
     new { @class = "btn btn-primary" })
+    </div>
+<div class="form-group">
+    @Html.ActionLink("Create Trainee Account", "CreateTraineeAccount", "TrainingStaffs",null,
+    new { @class = "btn btn-primary" })
+</div>
 @using (Html.BeginForm("ListTrainee", "TrainingStaffs", "POST"))
 {
     <div class="form-group">
-        <label for="fname">Search by Task Name:</label><br>
+        <label for="fname">Search by Trainee Name:</label><br>
         @Html.TextBox("searchString", null, new { @class = "form-control" })
     </div>
     <div class="form-group">
@@ -22,6 +28,7 @@
     <thead>
         <tr>
             <th>Trainee Name</th>
+            <th>Phone Number</th>
             <th>Action</th>
 
         </tr>
@@ -29,16 +36,19 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@item.UserName</td>
-                <td>
-                    @Html.ActionLink("ResetPassword", "ResetPassword", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-default" })
-                    @Html.ActionLink("Remove User", "RemoveTrainee", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-default" })
-                    @Html.ActionLink("AssignCourseTrainee", "AssignCourseTrainee", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-primary" })
-                    @Html.ActionLink("ViewCourseTrainee", "ViewCourseAssignedTrainee", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-default" })
-                </td>
+        <tr>
+            <td>@item.FullName</td>
+            <td>@item.Telephone</td>
 
-            </tr>
+            <td>
+                @Html.ActionLink("Detail Profile", "DetailTraineeProfile", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-default" })
+                @Html.ActionLink("ResetPassword", "ResetPassword", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-default" })
+                @Html.ActionLink("Remove User", "RemoveTrainee", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-default" })
+                @Html.ActionLink("AssignCourseTrainee", "AssignCourseTrainee", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("ViewCourseTrainee", "ViewCourseAssignedTrainee", "TrainingStaffs", new { id = item.Id }, new { @class = "btn btn-default" })
+            </td>
+
+        </tr>
         }
     </tbody>
 </table>

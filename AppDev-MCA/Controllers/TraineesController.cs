@@ -43,7 +43,7 @@ namespace AppDev_MCA.Controllers
         public ActionResult ChangePassword(string password)
         {
             var CurrentTraineeId = User.Identity.GetUserId();
-            var TraineeInDb = _context.Users.SingleOrDefault(c => c.Id == CurrentTraineeId);
+            var TraineeInDb = _userManager.FindById(CurrentTraineeId);
             string newPassword = password;
             _userManager.RemovePassword(CurrentTraineeId);
             _userManager.AddPassword(CurrentTraineeId, newPassword);

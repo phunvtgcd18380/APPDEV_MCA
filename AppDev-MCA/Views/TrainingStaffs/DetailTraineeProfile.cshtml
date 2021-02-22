@@ -1,0 +1,21 @@
+﻿@model AppDev_MCA.Models.TraineeUser
+@{
+    ViewBag.Title = "DetailTraineeProfile";
+}
+
+<h2>DetailTraineeProfile</h2>
+
+@Html.ActionLink("Back to List Trainee", "ListTrainee", "TrainingStaffs",
+    null,
+    new { @class = "btn btn-primary" })
+
+<ul>
+    <li>E-Mail: @Model.UserName</li>
+    <li>Full Name: @Model.FullName</li>
+    <li>Date Of Birth: @Model.DateOfBirth</li>
+    <li>Age: @Model.age</li>
+    <li>Phone Number: @Model.Telephone</li>
+    <li>Working Place: @Model.Department</li>
+    <li>Programming Language: @Model.mainProgrammingLanguage</li>
+    <li>Toeic Score: @Model.ToeicScore</li>
+</ul>

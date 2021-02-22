@@ -8,6 +8,10 @@
 @using (Html.BeginForm("UpdateProfileTrainer", "TrainingStaffs", "POST"))
 {
     <div class="form-group">
+        @Html.LabelFor(model => model.FullName)
+        @Html.TextAreaFor(model => model.FullName, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
         @Html.LabelFor(model => model.Telephone)
         @Html.TextAreaFor(model => model.Telephone, new { @class = "form-control" })
     </div>

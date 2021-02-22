@@ -3,7 +3,12 @@
     ViewBag.Title = "CreateTrainingStaff";
 }
 
-<h2>CreateCourse</h2>
+<h2>Create Training Staff Account</h2>
+<div class="form-group">
+    @Html.ActionLink("Back to List Training Staff", "ListTrainingStaff", "Admins",
+null,
+new { @class = "btn btn-primary" })
+</div>
 @using (Html.BeginForm("CreateTrainingStaff", "Admins", "POST"))
 {
     @Html.ValidationSummary("", new { @class = "text-danger" })

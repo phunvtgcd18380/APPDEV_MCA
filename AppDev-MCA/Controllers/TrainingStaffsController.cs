@@ -169,10 +169,16 @@ namespace AppDev_MCA.Controllers
 
 
         
-        public ActionResult ListTrainer()
+        public ActionResult ListTrainer(string searchString)
         {
-            var trainerUsers = _context.TrainerUsers.ToList();
-            return View(trainerUsers);
+            var trainerInDb = _context.TrainerUsers.ToList();
+            if (!searchString.IsNullOrWhiteSpace())
+            {
+                trainerInDb = _context.TrainerUsers
+                .Where(m => m.FullName.Contains(searchString) || m.Telephone.Contains(searchString))
+                .ToList();
+            }
+            return View(trainerInDb);
         }
         [HttpGet]
         public ActionResult UpdateProfileTrainer(string id)
@@ -185,10 +191,16 @@ namespace AppDev_MCA.Controllers
         {
             var trainerInDb = _context.TrainerUsers.SingleOrDefault(t => t.Id == trainer.Id);
             {
+                trainerInDb.UserName = trainer.EmailAddress;
+                trainerInDb.FullName = trainer.FullName;
                 trainerInDb.WorkingPlace = trainer.WorkingPlace;
                 trainerInDb.type = trainer.type;
                 trainerInDb.Telephone = trainer.Telephone;
                 trainerInDb.EmailAddress = trainer.EmailAddress;
+            }
+            var userInDb = _context.Users.SingleOrDefault(u => u.Id == trainer.Id);
+            {
+                userInDb.UserName = trainer.EmailAddress;
             }
             _context.SaveChanges();
             return RedirectToAction("ListTrainer");
@@ -277,9 +289,14 @@ namespace AppDev_MCA.Controllers
             if (!searchString.IsNullOrWhiteSpace())
             {
                 traineeInDb = _context.TraineeUsers
-                .Where(m => m.FullName.Contains(searchString) || m.mainProgrammingLanguage.Contains(searchString))
+                .Where(m => m.FullName.Contains(searchString) || m.Telephone.Contains(searchString))
                 .ToList();
             }
+            return View(traineeInDb);
+        }
+        public ActionResult DetailTraineeProfile(string id)
+        {
+            var traineeInDb = _context.TraineeUsers.SingleOrDefault(t => t.Id == id);
             return View(traineeInDb);
         }
         public ActionResult CreateTraineeAccount()
@@ -309,7 +326,8 @@ namespace AppDev_MCA.Controllers
                         Telephone = model.Telephone,
                         mainProgrammingLanguage = model.mainProgrammingLangueage,
                         ToeicScore = model.ToeicSocre,
-                        Department = model.Department
+                        Department = model.Department,
+                        EmailAddress = user.UserName
                     };
                     _context.TraineeUsers.Add(traineeUser);
                 }
@@ -360,7 +378,6 @@ namespace AppDev_MCA.Controllers
         [HttpPost]
         public ActionResult AssignCourseTrainee(TraineeUserCoursesViewModel traineeCourse)
         {
-
             var newTraineeCourse = new TraineeCourse()
             {
                 TraineeId = traineeCourse.User.Id,
@@ -388,12 +405,12 @@ namespace AppDev_MCA.Controllers
         [HttpPost]
         public ActionResult ChangeCourseTrainee(TraineeUserCoursesViewModel traineeCourse)
         {
-            var traineeCourseInDb = _context.TrainerCourses.SingleOrDefault(t => t.Id == traineeCourse.TraineeUser.Id);
+            var traineeCourseInDb = _context.TraineeCourses.SingleOrDefault(t => t.Id == traineeCourse.TraineeUser.Id);
             var courseInDb = _context.Courses.SingleOrDefault(t => t.Id == traineeCourse.TraineeUser.CourseId);
             traineeCourseInDb.CourseId = traineeCourse.TraineeUser.CourseId;
             traineeCourseInDb.CourseName = courseInDb.Name;
             _context.SaveChanges();
-            return RedirectToAction("ViewCourseAssignedTrainee");
+            return RedirectToAction("ListTrainee");
         }
         public ActionResult ViewCourseAssignedTrainee(string id)
         {

@@ -4,6 +4,11 @@
 }
 
 <h2>AssignCourseTrainee</h2>
+<div class="form-group">
+    @Html.ActionLink("Back to List Trainee", "ListTrainee", "TrainingStaffs",
+null,
+new { @class = "btn btn-primary" })
+</div>
 @using (Html.BeginForm("AssignCourseTrainee", "TrainingStaffs", "POST"))
 {
     <div class="form-group">

@@ -21,6 +21,7 @@ namespace AppDev_MCA.Migrations
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
+
         }
         private void CreateRole(ApplicationDbContext context, string roleName)
         {

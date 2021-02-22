@@ -2,7 +2,12 @@
 @{
     ViewBag.Title = "ListTrainingStaff";
 }
-<h2>Index</h2>
+<h2>List Training Staff</h2>
+<div class="form-group">
+    @Html.ActionLink("Back to Home", "Index", "Home",
+null,
+new { @class = "btn btn-primary" })
+</div>
 @Html.ActionLink("Create Training Staff account", "CreateTrainingStaff", "Admins", null, new { @class = "btn btn-primary" })
 <table class="table table-bordered">
     <thead>

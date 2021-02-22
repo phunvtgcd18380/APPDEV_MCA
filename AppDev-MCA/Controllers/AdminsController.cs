@@ -1,4 +1,5 @@
 ﻿using AppDev_MCA.Models;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -63,9 +64,15 @@ namespace AppDev_MCA.Controllers
         }
 
 
-        public ActionResult ListTrainer()
+        public ActionResult ListTrainer(string searchString)
         {
             var TrainerInDb = _context.TrainerUsers.ToList();
+            if (!searchString.IsNullOrWhiteSpace())
+            {
+                TrainerInDb = _context.TrainerUsers
+                .Where(m => m.FullName.Contains(searchString))
+                .ToList();
+            }
             return View(TrainerInDb);
         }
         public ActionResult ResetPassword(string id)
