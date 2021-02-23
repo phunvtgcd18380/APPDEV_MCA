@@ -16,7 +16,7 @@ namespace AppDev_MCA.Models
         [DisplayName("Course Name")]
         public string Name { get; set; }
         [Required]
-        [DisplayName("Description Course")]
+        [DisplayName("Description")]
         public string Description { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }

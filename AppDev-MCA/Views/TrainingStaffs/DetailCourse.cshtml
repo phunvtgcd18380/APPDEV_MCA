@@ -3,12 +3,25 @@
     ViewBag.Title = "DetailCourse";
 }
 
-<h2>DetailCourse</h2>
+<h2>View Detail</h2>
 
 @Html.ActionLink("Back to My Tasks", "ListCourse", "TrainingStaffs", null, new { @class = "btn btn-primary" })
 
-<ul>
-    <li>@Html.DisplayTextFor(model => model.Courses.Name)</li>
-    <li>@Html.DisplayTextFor(model => model.Courses.Description)</li>
-    <li>@Html.DisplayTextFor(model => model.Courses.Category.Name)</li>
-</ul>
+<div class="form-group">
+    @Html.LabelFor(m => m.Courses.Name, new { @class = "col-md-2 control-label" })
+    <div>
+        @Html.DisplayFor(m => m.Courses.Name)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.Courses.Description, new { @class = "col-md-2 control-label" })
+    <div>
+        @Html.DisplayFor(m => m.Courses.Description)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.Courses.Category.Name, new { @class = "col-md-2 control-label" })
+    <div>
+        @Html.DisplayFor(m => m.Courses.Category.Name)
+    </div>
+</div>

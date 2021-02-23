@@ -54,13 +54,10 @@ namespace AppDev_MCA.Controllers
             if (result.Succeeded)
             {
                  _userManager.AddToRole(user.Id, "STAFF");
+                _context.SaveChanges();
+
             }
-            _context.SaveChanges();
-            if (result.Succeeded)
-            {
-                return RedirectToAction("ListTrainingStaff");
-            }
-            return View(model);
+            return RedirectToAction("ListTrainingStaff");
         }
 
 
@@ -70,7 +67,7 @@ namespace AppDev_MCA.Controllers
             if (!searchString.IsNullOrWhiteSpace())
             {
                 TrainerInDb = _context.TrainerUsers
-                .Where(m => m.FullName.Contains(searchString))
+                .Where(m => m.FullName.Contains(searchString) || m.Telephone.Contains(searchString) || m.EmailAddress.Contains(searchString))
                 .ToList();
             }
             return View(TrainerInDb);
@@ -81,7 +78,7 @@ namespace AppDev_MCA.Controllers
              _userManager.RemovePassword(user.Id);
              _userManager.AddPassword(user.Id, "12345678");
              _userManager.Update(user);
-            return RedirectToAction("ListTrainingStaff");
+            return RedirectToAction("Index");
         }
         public ActionResult RemoveTrainerAccount(string id)
         {
@@ -117,11 +114,7 @@ namespace AppDev_MCA.Controllers
                 _context.TrainerUsers.Add(trainerUser);
             }
             _context.SaveChanges();
-            if (result.Succeeded)
-            {
-                return RedirectToAction("ListTrainer");
-            }
-            return View(model);
+            return RedirectToAction("ListTrainer");
         }
     }
 }

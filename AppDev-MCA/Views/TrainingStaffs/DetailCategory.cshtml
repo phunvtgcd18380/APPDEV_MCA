@@ -3,10 +3,19 @@
     ViewBag.Title = "DetailCategory";
 }
 
-<h2>DetailCategory</h2>
+<h2>View Detail</h2>
 @Html.ActionLink("Back to My Tasks", "ListCategory", "TrainingStaffs", null, new { @class = "btn btn-primary" })
 
-<ul>
-    <li>@Model.Name</li>
-    <li>@Model.Description</li>
-</ul>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+    <div>
+        @Html.DisplayFor(m => m.Name)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.Description, new { @class = "col-md-2 control-label" })
+    <div>
+        @Html.DisplayFor(m => m.Description)
+    </div>
+</div>

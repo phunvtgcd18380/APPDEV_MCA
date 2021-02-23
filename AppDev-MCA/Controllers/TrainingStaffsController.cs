@@ -280,7 +280,7 @@ namespace AppDev_MCA.Controllers
             trainerCourseInDb.CourseId = trainerCourse.TrainerUser.CourseId;
             trainerCourseInDb.CourseName = courseInDb.Name;
             _context.SaveChanges();
-            return RedirectToAction("ViewCourseAssigned");
+            return RedirectToAction("ListTrainer");
         }
 
         public ActionResult ListTrainee(string searchString)

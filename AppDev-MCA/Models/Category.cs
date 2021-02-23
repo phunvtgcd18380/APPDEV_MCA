@@ -16,7 +16,7 @@ namespace AppDev_MCA.Models
         [DisplayName("Category Name")]
         public string Name { get; set; }
         [Required]
-        [DisplayName("Desciption Category")]
+        [DisplayName("Desciption")]
         public string Description { get; set; }
     }
 }

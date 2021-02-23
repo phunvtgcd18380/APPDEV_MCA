@@ -12,10 +12,10 @@ new { @class = "btn btn-primary" })
 {
     <div class="form-group">
         <label for="fname">Search by Trainer Name:</label><br>
-        @Html.TextBox("searchString", null, new { @class = "form-control" })
+        @Html.TextBox("searchString", null, new { @class = "form-control", @width ="500px" })
     </div>
     <div class="form-group">
-        <button type="submit" class="btn btn-primary">Search</button>
+        <button type="submit" class="btn btn-primary"  width ="500px">Search</button>
     </div>
 }
 @Html.ActionLink("Create Trainer Account", "CreateTrainerAccount", "Admins", null, new { @class = "btn btn-primary" })
