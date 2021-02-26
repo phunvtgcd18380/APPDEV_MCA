@@ -49,15 +49,19 @@ namespace AppDev_MCA.Controllers
         [HttpPost]
         public ActionResult CreateTrainingStaff(RegisterViewModel model)
         {
-            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-            var result = _userManager.Create(user, model.Password);
-            if (result.Succeeded)
+            if (ModelState.IsValid)
             {
-                 _userManager.AddToRole(user.Id, "STAFF");
-                _context.SaveChanges();
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = _userManager.Create(user, model.Password);
+                if (result.Succeeded)
+                {
+                    _userManager.AddToRole(user.Id, "STAFF");
+                    _context.SaveChanges();
 
+                }
+                return RedirectToAction("ListTrainingStaff");
             }
-            return RedirectToAction("ListTrainingStaff");
+            return View(model);
         }
 
 
@@ -96,25 +100,29 @@ namespace AppDev_MCA.Controllers
         [HttpPost]
         public ActionResult CreateTrainerAccount(RegisterViewModel model)
         {
-            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-            var result =  _userManager.Create(user, model.Password);
-            if (result.Succeeded)
+            if (ModelState.IsValid)
             {
-                 _userManager.AddToRole(user.Id, "TRAINER");
-                var trainerUser = new TrainerUser()
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = _userManager.Create(user, model.Password);
+                if (result.Succeeded)
                 {
-                    Id = user.Id,
-                    UserName = user.UserName,
-                    FullName = model.FullName,
-                    Telephone = model.Telephone,
-                    WorkingPlace = model.WorkingPlace,
-                    type = model.Type,
-                    EmailAddress = user.UserName
-                };
-                _context.TrainerUsers.Add(trainerUser);
+                    _userManager.AddToRole(user.Id, "TRAINER");
+                    var trainerUser = new TrainerUser()
+                    {
+                        Id = user.Id,
+                        UserName = user.UserName,
+                        FullName = model.FullName,
+                        Telephone = model.Telephone,
+                        WorkingPlace = model.WorkingPlace,
+                        type = model.Type,
+                        EmailAddress = user.UserName
+                    };
+                    _context.TrainerUsers.Add(trainerUser);
+                }
+                _context.SaveChanges();
+                return RedirectToAction("ListTrainer");
             }
-            _context.SaveChanges();
-            return RedirectToAction("ListTrainer");
+            return View(model);
         }
     }
 }

@@ -10,7 +10,7 @@ using AppDev_MCA.Models;
 
 namespace AppDev_MCA.Controllers
 {
-    [Authorize]
+    [Authorize (Roles ="ADMIN")]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -52,6 +52,7 @@ namespace AppDev_MCA.Controllers
 
         //
         // GET: /Manage/Index
+        [AllowAnonymous]
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
@@ -78,6 +79,7 @@ namespace AppDev_MCA.Controllers
         //
         // POST: /Manage/RemoveLogin
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
         {
@@ -101,6 +103,7 @@ namespace AppDev_MCA.Controllers
 
         //
         // GET: /Manage/AddPhoneNumber
+        [AllowAnonymous]
         public ActionResult AddPhoneNumber()
         {
             return View();
@@ -109,6 +112,7 @@ namespace AppDev_MCA.Controllers
         //
         // POST: /Manage/AddPhoneNumber
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
         {
@@ -133,6 +137,7 @@ namespace AppDev_MCA.Controllers
         //
         // POST: /Manage/EnableTwoFactorAuthentication
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EnableTwoFactorAuthentication()
         {
@@ -148,6 +153,7 @@ namespace AppDev_MCA.Controllers
         //
         // POST: /Manage/DisableTwoFactorAuthentication
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DisableTwoFactorAuthentication()
         {
@@ -162,6 +168,7 @@ namespace AppDev_MCA.Controllers
 
         //
         // GET: /Manage/VerifyPhoneNumber
+        [AllowAnonymous]
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
         {
             var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
@@ -172,6 +179,7 @@ namespace AppDev_MCA.Controllers
         //
         // POST: /Manage/VerifyPhoneNumber
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> VerifyPhoneNumber(VerifyPhoneNumberViewModel model)
         {
@@ -197,6 +205,7 @@ namespace AppDev_MCA.Controllers
         //
         // POST: /Manage/RemovePhoneNumber
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemovePhoneNumber()
         {
@@ -215,6 +224,7 @@ namespace AppDev_MCA.Controllers
 
         //
         // GET: /Manage/ChangePassword
+        [AllowAnonymous]
         public ActionResult ChangePassword()
         {
             return View();
@@ -223,6 +233,7 @@ namespace AppDev_MCA.Controllers
         //
         // POST: /Manage/ChangePassword
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
@@ -246,6 +257,7 @@ namespace AppDev_MCA.Controllers
 
         //
         // GET: /Manage/SetPassword
+        [AllowAnonymous]
         public ActionResult SetPassword()
         {
             return View();
@@ -254,6 +266,7 @@ namespace AppDev_MCA.Controllers
         //
         // POST: /Manage/SetPassword
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
         {
@@ -278,6 +291,7 @@ namespace AppDev_MCA.Controllers
 
         //
         // GET: /Manage/ManageLogins
+        [AllowAnonymous]
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
@@ -302,6 +316,7 @@ namespace AppDev_MCA.Controllers
         //
         // POST: /Manage/LinkLogin
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult LinkLogin(string provider)
         {
@@ -311,6 +326,7 @@ namespace AppDev_MCA.Controllers
 
         //
         // GET: /Manage/LinkLoginCallback
+        [AllowAnonymous]
         public async Task<ActionResult> LinkLoginCallback()
         {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
@@ -321,7 +337,7 @@ namespace AppDev_MCA.Controllers
             var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
-
+        [AllowAnonymous]
         protected override void Dispose(bool disposing)
         {
             if (disposing && _userManager != null)

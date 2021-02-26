@@ -12,7 +12,7 @@ using AppDev_MCA.Models;
 
 namespace AppDev_MCA.Controllers
 {
-    [Authorize]
+    [Authorize (Roles ="ADMIN")]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -388,6 +388,7 @@ namespace AppDev_MCA.Controllers
         //
         // POST: /Account/LogOff
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {

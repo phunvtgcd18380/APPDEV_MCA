@@ -66,14 +66,18 @@ namespace AppDev_MCA.Controllers
         [HttpPost]
         public ActionResult CreateCategory(Category category)
         {
-            var newCategories = new Category()
+            if (ModelState.IsValid)
             {
-                Name = category.Name,
-                Description = category.Description
-            };
-            _context.Categories.Add(newCategories);
-            _context.SaveChanges();
-            return RedirectToAction("ListCategory");
+                var newCategories = new Category()
+                {
+                    Name = category.Name,
+                    Description = category.Description
+                };
+                _context.Categories.Add(newCategories);
+                _context.SaveChanges();
+                return RedirectToAction("ListCategory");
+            }
+            return View(category);
         }
 
         [HttpGet]
@@ -134,15 +138,19 @@ namespace AppDev_MCA.Controllers
         [HttpPost]
         public ActionResult CreateCourse(CourseCategoriesViewModel course)
         {
-            var newCourse = new Course()
+            if (ModelState.IsValid)
             {
-                Name = course.Courses.Name,
-                Description = course.Courses.Description,
-                CategoryId = course.Courses.CategoryId
-            };
-            _context.Courses.Add(newCourse);
-            _context.SaveChanges();
-            return RedirectToAction("ListCourse");
+                var newCourse = new Course()
+                {
+                    Name = course.Courses.Name,
+                    Description = course.Courses.Description,
+                    CategoryId = course.Courses.CategoryId
+                };
+                _context.Courses.Add(newCourse);
+                _context.SaveChanges();
+                return RedirectToAction("ListCourse");
+            }
+            return View(course);
         }
 
         [HttpGet]
@@ -329,13 +337,10 @@ namespace AppDev_MCA.Controllers
                         EmailAddress = user.UserName
                     };
                     _context.TraineeUsers.Add(traineeUser);
-                }
                     _context.SaveChanges();
-                if (result.Succeeded)
-                {
                     return RedirectToAction("ListTrainee");
                 }
-                }
+            }
             return View(model);
         }
 
